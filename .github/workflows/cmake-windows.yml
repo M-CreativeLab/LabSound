@@ -1,6 +1,9 @@
 name: CMake-Windows
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - v1.2.0-build
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
@@ -39,6 +42,20 @@ jobs:
       shell: bash
       # Execute the build.  You can specify a specific target with "--target <NAME>"
       run: cmake --build . --config $BUILD_TYPE
+
+    - name: Create Artifact
+      working-directory: ${{github.workspace}}
+      shell: bash
+      run: |
+        ls -ls ./
+        ls -ls ./build
+        zip -r release.zip build
+
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.3
+      with:
+        name: release
+        path: ${{github.workspace}}/release.zip
 
     - name: Test
       working-directory: ${{github.workspace}}/build
