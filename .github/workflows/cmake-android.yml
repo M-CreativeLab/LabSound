@@ -1,6 +1,9 @@
 name: CMake-Android
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - v1.2.0-build
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
@@ -48,6 +51,12 @@ jobs:
       shell: bash
       # Execute the build.  You can specify a specific target with "--target <NAME>"
       run: cmake --build . --config $BUILD_TYPE
+
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v2.1.1
+      with:
+        name: artifact
+        path: ${{github.workspace}}/build
 
     - name: Test
       working-directory: ${{github.workspace}}/build
