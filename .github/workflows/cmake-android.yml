@@ -66,12 +66,6 @@ jobs:
         name: release
         path: ${{github.workspace}}/release.zip
 
-    - name: Download a Build Artifact
-      uses: actions/download-artifact@v2.1.1
-      with:
-        name: artifact
-        path: ${{github.workspace}}/release.zip
-
     - name: Test
       working-directory: ${{github.workspace}}/build
       shell: bash
