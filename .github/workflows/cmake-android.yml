@@ -32,7 +32,7 @@ jobs:
       id: setup-ndk
       uses: nttld/setup-ndk@v1
       with:
-        ndk-version: r21d
+        ndk-version: r26d
 
     - name: Create Build Environment
       # Some projects don't allow in-source building, so create a separate build directory
@@ -52,11 +52,19 @@ jobs:
       # Execute the build.  You can specify a specific target with "--target <NAME>"
       run: cmake --build . --config $BUILD_TYPE
 
+    - name: Create Artifact
+      working-directory: ${{github.workspace}}
+      shell: bash
+      run: |
+        ls -ls ./
+        ls -ls ./build
+        zip -r build.zip build
+
     - name: Download a Build Artifact
       uses: actions/download-artifact@v2.1.1
       with:
         name: artifact
-        path: ${{github.workspace}}/build
+        path: ${{github.workspace}}/build.zip
 
     - name: Test
       working-directory: ${{github.workspace}}/build
