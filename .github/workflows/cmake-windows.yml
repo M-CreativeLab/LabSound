@@ -45,10 +45,7 @@ jobs:
 
     - name: Create Artifact
       working-directory: ${{github.workspace}}
-      shell: bash
       run: |
-        ls -ls ./
-        ls -ls ./build/release
         Compress-Archive -Path .\build -DestinationPath release-windows.zip
 
     - name: Upload a Build Artifact
